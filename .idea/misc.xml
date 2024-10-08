@@ -4,6 +4,7 @@
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
+        <option value="$PROJECT_DIR$/jpa-demo/pom.xml" />
         <option value="$PROJECT_DIR$/prototype-scope-example/pom.xml" />
       </list>
     </option>
