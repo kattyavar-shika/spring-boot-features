@@ -112,39 +112,37 @@
 ## 6. Data Persistence
 
 - **Spring Data JPA**
-    - `@Entity`, `@Table`, `@Id`, `@GeneratedValue`: Entity annotations for ORM mapping.
-    - `@Repository`: Marker for Data Access Object (DAO) classes.
-    - `@Transactional`: Manage transactions.
+  - `@Entity`, `@Table`, `@Id`, `@GeneratedValue`: Entity annotations for ORM mapping.
+  - `@Repository`: Marker for Data Access Object (DAO) classes.
+  - `@Transactional`: Manage transactions.
+
 - **Database Configuration**
   - Configuring data sources and JPA properties.
-- **CRUD Operations with JPA**
-  - Create, Read, Update, and Delete operations using Spring Data JPA. 
 
-### Commonly Used Annotations in Spring Data JPA
+- **Commonly Used Annotations in Spring Data JPA**
+  1. **@Entity**: Marks a class as a JPA entity.
 
-1. **@Entity**: Marks a class as a JPA entity.
+  2. **@Table**: Specifies the table name in the database that the entity maps to.
 
-2. **@Table**: Specifies the table name in the database that the entity maps to.
+  3. **@Id**: Indicates the primary key of the entity.
 
-3. **@Id**: Indicates the primary key of the entity.
+  4. **@GeneratedValue**: Specifies the strategy for generating primary keys (e.g., AUTO, IDENTITY).
 
-4. **@GeneratedValue**: Specifies the strategy for generating primary keys (e.g., AUTO, IDENTITY).
+  5. **@Column**: Maps a field to a column in the database and allows you to customize column properties.
 
-5. **@Column**: Maps a field to a column in the database and allows you to customize column properties.
+  6. **@OneToOne**: Defines a one-to-one relationship between two entities.
 
-6. **@OneToOne**: Defines a one-to-one relationship between two entities.
+  7. **@OneToMany**: Defines a one-to-many relationship.
 
-7. **@OneToMany**: Defines a one-to-many relationship.
+  8. **@ManyToOne**: Defines a many-to-one relationship.
 
-8. **@ManyToOne**: Defines a many-to-one relationship.
+  9. **@ManyToMany**: Defines a many-to-many relationship.
 
-9. **@ManyToMany**: Defines a many-to-many relationship.
+  10. **@JoinColumn**: Specifies the foreign key column for a relationship.
 
-10. **@JoinColumn**: Specifies the foreign key column for a relationship.
+  11. **@Transactional**: Indicates that a method or class should be executed within a transaction context.
 
-11. **@Transactional**: Indicates that a method or class should be executed within a transaction context.
-
-12. **@Query**: Used to define custom queries directly on repository methods.
+  12. **@Query**: Used to define custom queries directly on repository methods.
 
 These annotations help define entity mappings and relationships in JPA, enabling you to work with your database in an object-oriented manner.
 
