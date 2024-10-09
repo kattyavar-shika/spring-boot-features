@@ -3,6 +3,152 @@
 
 The @Entity annotation in JPA (Java Persistence API) is used to indicate that a class is an entity and should be mapped to a database table.
 
+# To define primary key.
+
+## @Id
+
+@Id annotation is used to specify the primary key of an entity. Each entity must have a primary key to uniquely identify its instances in the database. Below are the key aspects of using the @Id annotation:
+
+## Composite key @EmbeddedId, @Embeddable or @IdClass
+
+If primary is composite then, use @Embeddable and @EmbeddedId
+
+using  @Embeddable and @EmbeddedId
+
+```java 
+
+import javax.persistence.Embeddable;
+import java.io.Serializable;
+import java.util.Objects;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+
+@Embeddable
+public class UserId implements Serializable {
+    private String email;
+    private String username;
+
+    // Getters and Setters
+   
+}
+
+//
+
+
+@Entity
+public class User {
+
+  @EmbeddedId
+  private UserId userId;
+
+  private String fullName;
+
+   
+}
+
+```
+
+using @IdClass 
+
+```java 
+
+import java.io.Serializable;
+import java.util.Objects;
+
+public class UserCompositeKey implements Serializable {
+    private String email;
+    private String username;
+
+    public UserCompositeKey() {}
+
+    public UserCompositeKey(String email, String username) {
+        this.email = email;
+        this.username = username;
+    }
+
+    // Getters and Setters
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    // Override equals and hashCode
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserCompositeKey)) return false;
+        UserCompositeKey that = (UserCompositeKey) o;
+        return Objects.equals(email, that.email) && 
+               Objects.equals(username, that.username);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email, username);
+    }
+}
+
+// Usage 
+@Entity
+@IdClass(UserCompositeKey.class) // Specify the composite key class
+public class User {
+
+  @Id
+  private String email; // First part of the composite key
+
+  @Id
+  private String username; // Second part of the composite key
+
+  private String fullName;
+
+  // Default constructor
+  public User() {}
+
+  // Parameterized constructor
+  public User(String email, String username, String fullName) {
+    this.email = email;
+    this.username = username;
+    this.fullName = fullName;
+  }
+
+  // Getters and Setters
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public String getUsername() {
+    return username;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
+  }
+
+  public String getFullName() {
+    return fullName;
+  }
+
+  public void setFullName(String fullName) {
+    this.fullName = fullName;
+  }
+}
+```
+
 # @Table Annotation in Spring Data JPA
 
 The @Table annotation in JPA is used to specify the details of the table that an entity will be mapped to in the database. While it is optional (if not provided, the table name will default to the entity class name), it provides flexibility and control over the mapping.
@@ -627,3 +773,229 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
 }
 
 ```
+
+# DB Connection Thread pool.
+## HikariCP
+To configure HikariCP in a Spring Boot application, you will typically use the application.properties or application.yml file to set the connection pool properties
+
+
+Example
+
+```yaml
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/yourdb
+    username: root
+    password: yourpassword
+    hikari:
+      maximum-pool-size: 10                   # Maximum number of connections in the pool
+      minimum-idle: 5                         # Minimum number of idle connections
+      idle-timeout: 600000                    # Idle time before a connection is removed (in milliseconds)
+      connection-timeout: 30000               # Maximum time to wait for a connection (in milliseconds)
+      max-lifetime: 1800000                   # Maximum lifetime of a connection (in milliseconds)
+
+```
+
+
+#  @NamedQuery and @NamedNativeQuery 
+
+@NamedQuery and @NamedNativeQuery are powerful features in JPA that allow you to define queries in a reusable manner. They can be used to encapsulate queries in your entity classes, which helps in managing and maintaining them.
+
+## Using @NamedQuery 
+
+@NamedQuery is used for defining JPQL (Java Persistence Query Language) queries. You typically define these at the class level in your entity.
+
+Example 
+
+```java 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+
+@Entity
+@NamedQuery(
+    name = "User.findByUsername",
+    query = "SELECT u FROM User u WHERE u.username = :username"
+)
+public class User {
+
+    @Id
+    private Long id;
+    private String username;
+    private String fullName;
+
+    // Getters and Setters
+}
+
+public interface UserRepository extends JpaRepository<User, Long> {
+  User findByUsername(String username); // This will use the NamedQuery
+}
+```
+
+## Using @NamedNativeQuery
+
+@NamedNativeQuery is used for defining native SQL queries. This is useful when you need to run SQL directly, particularly for database-specific queries or performance optimizations.
+
+Example
+
+```java 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedNativeQuery;
+
+@Entity
+@NamedNativeQuery(
+    name = "User.findByEmail",
+    query = "SELECT * FROM users WHERE email = :email",
+    resultClass = User.class // Specify the result class
+)
+public class User {
+
+    @Id
+    private Long id;
+    private String username;
+    private String email;
+    private String fullName;
+
+    // Getters and Setters
+}
+
+public interface UserRepository extends JpaRepository<User, Long> {
+  User findByEmail(String email); // This will use the NamedNativeQuery
+}
+```
+
+We can combine both at the same time. 
+
+Example 
+
+```java 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.NamedQuery;
+
+@Entity
+@NamedQuery(
+    name = "User.findByUsername",
+    query = "SELECT u FROM User u WHERE u.username = :username"
+)
+@NamedNativeQuery(
+    name = "User.findByEmail",
+    query = "SELECT * FROM users WHERE email = :email",
+    resultClass = User.class // Specify the result class
+)
+public class User {
+
+    @Id
+    private Long id;
+    private String username;
+    private String email;
+    private String fullName;
+
+    // Getters and Setters
+}
+
+public interface UserRepository extends JpaRepository<User, Long> {
+  User findByUsername(String username); // Uses NamedQuery
+  User findByEmail(String email); // Will use NamedNativeQuery if defined properly
+}
+```
+
+# Lazy loading
+
+Using @Transactional is crucial when working with lazy loading in JPA to ensure that the Hibernate session remains open for accessing lazily-loaded properties. This allows you to fetch related data without running into LazyInitializationException.
+
+
+Example 
+
+```java 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import javax.transaction.Transactional;
+
+@Service
+public class UserService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Transactional
+    public void displayUserOrders(Long userId) {
+        // Load the user by ID
+        User user = userRepository.findById(userId).orElse(null);
+
+        if (user != null) {
+            System.out.println("Username: " + user.getUsername());
+
+            // At this point, orders are not loaded yet (due to lazy loading)
+            System.out.println("Orders (not yet loaded): " + user.getOrders());
+
+            // Now we explicitly access the orders, triggering the load
+            for (Order order : user.getOrders()) {
+                System.out.println("Order ID: " + order.getId() + ", Product: " + order.getProduct());
+            }
+        }
+    }
+}
+
+```
+
+## What Happens Without @Transactional?
+
+```java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import javax.transaction.Transactional;
+
+@Service
+public class UserService {
+
+  @Autowired
+  private UserRepository userRepository;
+
+  public void displayUserOrders(Long userId) {
+    User user = userRepository.findById(userId).orElse(null);
+
+    if (user != null) {
+      // Accessing the lazy-loaded orders
+      for (Order order : user.getOrders()) { // This will throw LazyInitializationException
+        System.out.println("Order ID: " + order.getId());
+      }
+    }
+  }
+}
+
+```
+
+# pagination
+
+Implementing pagination in JPA allows you to efficiently retrieve a subset of records from a larger dataset, improving performance and user experience, especially in applications displaying lists of entities. Here’s how you can implement pagination using JPA:
+
+## Spring Data JPA
+
+Example 
+
+```java
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface MyEntityRepository extends JpaRepository<MyEntity, Long> {
+    Page<MyEntity> findAll(Pageable pageable);
+}
+
+// Usage 
+@Service
+public class MyEntityService {
+
+  @Autowired
+  private MyEntityRepository myEntityRepository;
+
+  public Page<MyEntity> getPaginatedEntities(int page, int size) {
+    return myEntityRepository.findAll(PageRequest.of(page, size));
+  }
+}
+```
+
