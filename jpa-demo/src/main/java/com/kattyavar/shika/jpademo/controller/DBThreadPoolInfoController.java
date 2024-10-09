@@ -1,11 +1,16 @@
 package com.kattyavar.shika.jpademo.controller;
 
+import com.kattyavar.shika.jpademo.model.Employee;
+import com.kattyavar.shika.jpademo.repository.EmployeeRepository;
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1")
 public class DBThreadPoolInfoController {
@@ -13,6 +18,9 @@ public class DBThreadPoolInfoController {
 
   @Autowired
   private HikariDataSource dataSource;
+
+  @Autowired
+  EmployeeRepository employeeRepository;
 
   /*
   If you would like to override this information,
@@ -35,5 +43,19 @@ public class DBThreadPoolInfoController {
       dataSource.getConnectionTimeout());
   }
 
+
+  @GetMapping("/dumprecord/{id}")
+  public Employee dumpRecord(@PathVariable Integer id) {
+    Employee employee = new Employee();
+
+    if (id != 1) {
+      log.info("Setting the id ");
+      employee.setId(Long.valueOf(id));
+    }
+    employee.setName(" Name " + id);
+    employee.setAddress(" address for " + id);
+    log.info(" emp object as {} ", employee);
+    return employeeRepository.save(employee);
+  }
 
 }
