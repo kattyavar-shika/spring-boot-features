@@ -96,7 +96,7 @@
     - **Overview of Data Validation**
         - Importance and benefits of validating input data.
     - **Using Java Bean Validation API**
-        - Introduction to `javax.validation.constraints` and using validation annotations (`@NotNull`, `@Size`, `@Min`,
+        - Introduction to `jakarta.validation.constraints` and using validation annotations (`@NotNull`, `@Size`, `@Min`,
           `@Max`, `@Pattern`).
         - Example POJO with validation annotations.
     - **Validating POJOs in Controllers**
