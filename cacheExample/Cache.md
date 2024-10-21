@@ -394,3 +394,32 @@ public class LoggingAspect {
 
 
 ```
+
+# Limitations of Aspect-Oriented Programming (AOP)
+
+## 1. Final Classes and Methods
+- **Final Classes**: AOP relies on creating proxies for classes to intercept method calls. If a class is declared as `final`, it cannot be subclassed, which means AOP cannot create a proxy for it.
+
+- **Final Methods**: Similarly, if a method is declared as `final`, it cannot be overridden, preventing interception by AOP.
+
+## 2. Self-Invocation
+- **Same Class Execution**: If a method in a class calls another method in the same class, AOP will not intercept that call. This is because the method is being called directly on the same object instance, bypassing the proxy mechanism.
+
+## 3. Static Methods
+- **Static Methods**: AOP cannot intercept static method calls because static methods are not part of the object instance. They belong to the class itself, and the proxy mechanism does not apply.
+
+## 4. Private Methods
+- **Private Methods**: AOP cannot intercept private methods for the same reason as static methods. The proxy mechanism cannot access private methods, as they are not visible outside their defining class.
+
+## 5. Interface vs. Class Proxies
+- **Interface-Based Proxies**: If you rely on JDK dynamic proxies (default behavior), only interfaces can be proxied. Any concrete class without interfaces will not be intercepted unless you use CGLIB proxies, which require a subclassable class.
+
+## 6. Non-Spring Managed Beans
+- **Non-Spring Beans**: If a bean is not managed by the Spring container (e.g., created with `new`), AOP will not apply. AOP works only on Spring-managed beans.
+
+## 7. Multiple Proxies
+- **Conflicting Proxies**: If a class is proxied by multiple AOP aspects, the order of execution can be unpredictable, leading to potential conflicts and unintended behavior.
+
+## Summary
+AOP is powerful, but its effectiveness can be limited in certain scenarios, such as final classes, self-invocation within the same class, static methods, private methods, and non-Spring managed beans. Understanding these limitations helps in designing your application effectively to leverage AOP where it can provide the most benefit.
+
