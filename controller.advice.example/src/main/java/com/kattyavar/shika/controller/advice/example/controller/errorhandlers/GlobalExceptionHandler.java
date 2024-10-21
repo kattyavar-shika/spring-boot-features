@@ -5,6 +5,7 @@ import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -27,9 +28,11 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(InvalidAttributesException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
+  //public ResponseEntity<Map<String, Object>> handleInvalidateException(InvalidAttributesException e) {
+  //public String handleInvalidateException(InvalidAttributesException e) {
   public ResponseEntity<Map<String, Object>> handleInvalidateException(InvalidAttributesException e) {
     Map<String, Object> body = new HashMap<>();
-    body.put("error", "Internal server error");
+    body.put("error", "Internal server error i can do any thing..");
     body.put("message", e.getMessage());
     body.put("status", HttpStatus.INTERNAL_SERVER_ERROR);
 
@@ -38,6 +41,7 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(Exception.class)
   public ResponseEntity<Map<String, Object>> defaultHandler(Exception e, WebRequest request) {
+
     Map<String, Object> body = errorAttributes.getErrorAttributes(request,
       ErrorAttributeOptions.of(
         ErrorAttributeOptions.Include.MESSAGE,

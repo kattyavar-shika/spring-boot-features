@@ -1,0 +1,10 @@
+spring:
+  application:
+    name:
+      cacheExample
+
+  cache:
+    type: redis
+  redis:
+    host: localhost
+    port: 6379
