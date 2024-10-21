@@ -3,6 +3,13 @@
 Cache is a hardware or software component that stores data so that future requests for that data can be served faster. Caching is used to reduce the time it takes to access data and to improve application performance. It acts as a temporary storage layer, holding frequently accessed data to minimize the need for expensive operations like database queries or API calls.
 
 
+# Docker part 
+
+ 
+docker start my-redis
+
+docker exec -it my-redis redis-cli
+
 ## Why Do We Need Caching?
 
 ### Performance Improvement
