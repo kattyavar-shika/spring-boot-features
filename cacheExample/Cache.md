@@ -142,5 +142,255 @@ spring:
   redis:
     host: localhost
     port: 6379
+```
+
+# AOP Concepts
+
+Ref url : https://docs.spring.io/spring-framework/reference/core/aop/introduction-defn.html
+
+
+## Dependencies 
+
+```xml
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-aop</artifactId>
+    </dependency>
+
+```
+
+## EnableAspectJAutoProxy
+
+@EnableAspectJAutoProxy
+Description: The @EnableAspectJAutoProxy annotation is used in Spring applications to enable support for handling components marked with AspectJ's @Aspect annotation. It allows you to use Aspect-Oriented Programming (AOP) in your Spring application, enabling features like cross-cutting concerns (e.g., logging, transaction management, security) to be applied to your beans.
+
+# Aspect-Oriented Programming (AOP)
+
+## What is AOP?
+
+**Aspect-Oriented Programming (AOP)** is a programming paradigm that aims to increase modularity by allowing the separation of cross-cutting concerns. Cross-cutting concerns are aspects of a program that affect other parts of the application and can include functionalities like:
+
+- Logging
+- Security
+- Error handling
+- Transaction management
+
+In traditional programming, these concerns often lead to code scattering and tangling, making it harder to maintain and understand the codebase. AOP addresses this by encapsulating these concerns into reusable modules called **aspects**.
+
+## Key Concepts in AOP
+
+1. **Aspect**: A module that contains cross-cutting concerns. It is defined using a combination of advice and pointcuts.
+
+2. **Join Point**: A point in the execution of the program where an aspect can be applied. Common join points include method calls and object instantiations.
+
+3. **Pointcut**: An expression that selects join points where advice should be applied. Pointcuts can be defined using various expressions, such as method names, annotations, or packages.
+
+4. **Advice**: The action taken by an aspect at a particular join point. There are different types of advice:
+    - **Before**: Executes before the join point.
+    - **After**: Executes after the join point, regardless of its outcome.
+    - **After Returning**: Executes after the join point if it completes successfully.
+    - **After Throwing**: Executes if the join point throws an exception.
+    - **Around**: Wraps the join point, allowing you to control whether it proceeds or not.
+
+5. **Weaving**: The process of integrating aspects into the main codebase. This can occur at different times:
+    - **Compile-time**: Aspects are woven into the code during compilation.
+    - **Load-time**: Aspects are woven when classes are loaded into the JVM.
+    - **Runtime**: Aspects are woven while the application is running.
+
+## Options Available in AOP
+
+1. **Pointcut Expressions**:
+    - **Execution**: Specifies method execution join points.
+    - **Within**: Matches all join points within a specified type.
+    - **Args**: Matches join points based on method argument types.
+    - **@annotation**: Matches methods with a specific annotation.
+    - **This** and **Target**: Refers to the proxy or target object.
+
+2. **Types of Advice**:
+    - **Before**, **After**, **After Returning**, **After Throwing**, and **Around**.
+
+3. **Integration with Frameworks**: AOP can be integrated with various frameworks, most notably Spring, to manage cross-cutting concerns in applications effectively.
+
+## Benefits of AOP
+
+- **Separation of Concerns**: Enhances modularity by separating cross-cutting concerns from business logic.
+- **Code Reusability**: Allows aspects to be reused across different parts of an application.
+- **Improved Maintainability**: Makes code easier to maintain and understand by reducing duplication.
+
+## Conclusion
+
+With this foundation in AOP, we can now dive into specific topics, such as pointcuts, advice types, and their practical applications in Spring Boot. Let me know which area you'd like to explore first!
+
+
+# Logging
+## Enable debug logging for AspectJ
+logging.level.org.aspectj=DEBUG
+## Enable debug logging for Spring AOP
+logging.level.org.springframework.aop=DEBUG
+
+
+# Syntax of execution
+The basic syntax for the execution expression is:
+```sql
+execution(modifiers-pattern? return-type-pattern declaring-type-pattern? name-pattern(param-pattern) throws-pattern?)
+
+```
+## Components of the execution Expression
+
+### Modifiers (Optional)
+- You can specify method modifiers like:
+    - `public`
+    - `protected`
+    - `private`
+    - `*` (to match any modifier)
+
+### Return Type
+- Specify the return type of the method:
+    - `void`
+    - `int`
+    - `String`
+    - `*` (to match any return type)
+
+### Declaring Type (Optional)
+- The class in which the method is declared:
+    - `com.example.demo.service.*`
+    - Omit this to match any class
+
+### Name
+- The name of the method:
+    - `performTask`
+    - `*` (to match any method name)
+
+### Parameter Types
+- Specify the types of parameters:
+    - `(String, int)`
+    - `(..)` (to match any parameters, including none)
+
+### Throws (Optional)
+- Specify any exceptions that the method may throw:
+    - `IOException`
+    - Omit this to match any
+
+
+## Examples of execution Pointcuts
+
+Match All Public Methods in a Package:
+
+```java
+@Pointcut("execution(public * com.example.demo.service.*.*(..))")
+public void allPublicServiceMethods() {}
+
+```
+
+Match Any Method Named performTask:
+
+```java
+@Pointcut("execution(* performTask(..))")
+public void performTaskMethod() {}
+
+```
+
+Match Any Method in a Specific Class:
+
+```java
+@Pointcut("execution(* com.example.demo.service.MyService.*(..))")
+public void myServiceMethods() {}
+
+```
+
+Match All Methods with Specific Return Type:
+
+```java
+@Pointcut("execution(String com.example.demo.service.*.*(..))")
+public void stringReturnMethods() {}
+
+```
+
+Match Any Method with Parameters:
+
+```java
+@Pointcut("execution(* com.example.demo.service.*.*(String, ..))")
+public void methodsWithStringParameter() {}
+
+```
+
+```java
+@Pointcut("execution(* com.example.demo.service.*.*(..)) throws IOException")
+public void methodsThrowingIOException() {}
+
+```
+
+# Annotation way 
+
+The @annotation pointcut expression in Spring AOP allows you to match method executions based on the presence of specific annotations. This is particularly useful for applying cross-cutting concerns like logging, security, or transaction management to methods that are annotated in a certain way.
+
+
+Syntax of @annotation Pointcut
+
+```java 
+@Pointcut("@annotation(com.example.demo.MyAnnotation)")
+
+```
+
+Example 
+
+```java
+package com.example.demo;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface MyAnnotation {
+    String value() default "";
+}
+
+```
+Use this Annotation on method 
+
+```java
+package com.example.demo.service;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class MyService {
+
+    @MyAnnotation(value = "Executing special task")
+    public void specialTask() {
+        System.out.println("Special task executed.");
+    }
+
+    public void normalTask() {
+        System.out.println("Normal task executed.");
+    }
+}
+
+```
+
+Step 3: Create an Aspect Using @annotation
+
+```java 
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.stereotype.Component;
+
+@Aspect
+@Component
+public class LoggingAspect {
+
+    @Pointcut("@annotation(myAnnotation)")
+    public void annotatedMethods(MyAnnotation myAnnotation) {}
+
+    @After("annotatedMethods(myAnnotation)")
+    public void logAfterAnnotatedMethods(MyAnnotation myAnnotation) {
+        System.out.println("Method with annotation executed: " + myAnnotation.value());
+    }
+}
+
 
 ```

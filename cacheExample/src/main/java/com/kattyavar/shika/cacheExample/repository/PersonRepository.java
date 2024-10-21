@@ -10,6 +10,7 @@ import java.util.List;
 @Repository
 public class PersonRepository {
 
+  private final long waitTimeInMs = 3000;
   List<Person> list = List.of(
     new Person("1", "Person 1 name", "Person 1 last name"),
     new Person("2", "Person 2 name", "Person 2 last name"),
@@ -21,6 +22,8 @@ public class PersonRepository {
 
   public Person getPerson(String personId) {
     log.info(" getPerson with person id {}", personId);
+    //For demo purpose only...
+    pleaseWaitForDemoPurpose();
     return list.stream()
       .filter(e -> e.getId().compareToIgnoreCase(personId) == 0)
       .findFirst()
@@ -29,6 +32,7 @@ public class PersonRepository {
 
   public Person getPersonByName(String name) {
     log.info(" getPersonByName with parameter name {}", name);
+    pleaseWaitForDemoPurpose();
     return
       list
         .stream()
@@ -40,7 +44,17 @@ public class PersonRepository {
 
   public List<Person> getPersons() {
     log.info("getPersons");
+    pleaseWaitForDemoPurpose();
     return list;
+  }
+
+  private void pleaseWaitForDemoPurpose (){
+    //For demo purpose only...
+    try {
+      Thread.sleep(waitTimeInMs);
+    } catch (InterruptedException e) {
+      throw new RuntimeException(e);
+    }
   }
 
 
