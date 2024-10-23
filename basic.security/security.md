@@ -149,3 +149,33 @@ public class SecurityConfig {
   }
 } 
 ```
+
+## To make state less 
+
+Description: This policy means that the application will not create or use HTTP sessions to store authentication information. Each request must contain all the necessary information to authenticate the user (like a JWT or other token).
+
+Use Case: Ideal for RESTful APIs or microservices where you want to maintain a stateless architecture. Each request is treated independently, which is useful for scaling and security.
+
+
+```java 
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+  @Bean
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+    return http
+      .sessionManagement(session ->
+        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+      .authorizeHttpRequests(authorize -> authorize
+        .requestMatchers("/api/v1/open/**").permitAll()
+        .anyRequest().authenticated()
+      )
+      .formLogin(formeLoing -> formeLoing.disable())
+      .httpBasic(Customizer.withDefaults())
+      .build();
+
+  }
+}
+```
