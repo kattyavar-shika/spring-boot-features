@@ -23,7 +23,7 @@ public class HomeController {
   //To get session information ...
   @GetMapping("/sid")
   public String welcomeMessage2(HttpServletRequest request) {
-    HttpSession session = request.getSession();
+    HttpSession session = request.getSession(false);
     StringBuilder sessionData = new StringBuilder();
     sessionData.append("Session ID: ").append(session.getId()).append("\n");
 
