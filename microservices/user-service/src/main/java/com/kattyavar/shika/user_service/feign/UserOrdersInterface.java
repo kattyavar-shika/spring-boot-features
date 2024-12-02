@@ -10,5 +10,5 @@ import java.util.List;
 @FeignClient("USER-ORDER-SERVICE")
 public interface UserOrdersInterface {
   @GetMapping("api/v1/orders/user/{userId}")
-  List<OrderResponse> getOrderByUser(@PathVariable String userId);
+  OrderResponse getOrderByUser(@PathVariable String userId);
 }

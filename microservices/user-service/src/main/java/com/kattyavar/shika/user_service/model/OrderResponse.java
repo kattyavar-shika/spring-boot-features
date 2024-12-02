@@ -1,4 +1,6 @@
 package com.kattyavar.shika.user_service.model;
 
-public record OrderResponse(String userId, String orderId, String orderDesc) {
+import java.util.List;
+
+public record OrderResponse(String ip, String port, String serviceName, List<Order> orders) {
 }
