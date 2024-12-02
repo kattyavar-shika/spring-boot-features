@@ -69,4 +69,14 @@ and you would like to access your service from API gateway then update the URL a
 http://localhost:8080/user-service/api/v1/users/1
 
 Note: API gateway is running on 8080
-user-service : is the service name. 
+user-service : is the service name.
+
+
+# Few URl 
+
+## User Service 
+
+To get the list order by user id : http://localhost:8081/api/v1/users/1
+
+To Access the Same url from API gateWay  http://localhost:8080/USER-SERVICE/api/v1/users/1
+
