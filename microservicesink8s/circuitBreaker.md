@@ -91,6 +91,9 @@ public OrderResponse getDefaultOrders(Exception e) {
 
 Note : fallbackMethod should return the same object...
 
+To view CircuitBreaker server config state use below end point
+
+http://localhost:8080/actuator/health
 # Retry
 
 ## without fallback

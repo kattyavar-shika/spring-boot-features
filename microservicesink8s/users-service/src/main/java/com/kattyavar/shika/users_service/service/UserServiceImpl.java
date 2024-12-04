@@ -36,8 +36,8 @@ public class UserServiceImpl implements UserService {
        * If you want to check CircuitBreaker then make call to getOrdersByUserId
        * if you want to check Retry then make call to getOrdersByUserIdWithReTry
        */
-      OrderResponse orderResponseInt = orderIntegration.getOrdersByUserId(userId);
-      //OrderResponse orderResponseInt = orderIntegration.getOrdersByUserIdWithReTry(userId);
+      //OrderResponse orderResponseInt = orderIntegration.getOrdersByUserId(userId);
+      OrderResponse orderResponseInt = orderIntegration.getOrdersByUserIdWithReTry(userId);
       return new UserOrderResponse(userInfo, orderResponseInt.orders());
     }
     return new UserOrderResponse(userInfo, null);

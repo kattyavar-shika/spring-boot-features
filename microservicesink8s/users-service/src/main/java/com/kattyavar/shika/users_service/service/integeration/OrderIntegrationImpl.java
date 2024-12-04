@@ -38,6 +38,10 @@ public class OrderIntegrationImpl implements OrderIntegration {
   }
 
   @Override
+  // Without fallback
+  // @Retry(name = serviceName)
+
+  //With Fallback
   @Retry(name = serviceName, fallbackMethod = "getDefaultOrders")
   public OrderResponse getOrdersByUserIdWithReTry(String userId) {
 
