@@ -5,4 +5,5 @@ import com.kattyavar.shika.users_service.service.integeration.dto.OrderResponse;
 public interface OrderIntegration {
 
   OrderResponse getOrdersByUserId(String userId);
+  OrderResponse getOrdersByUserIdWithReTry(String userId);
 }

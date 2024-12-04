@@ -16,7 +16,7 @@ public class UserController {
   UserService userService;
 
   @GetMapping("/{userId}/orders")
-  UserOrderResponse getUserOrderInformation(@PathVariable String userId) {
+  UserOrderResponse getUserOrderInformation(@PathVariable String userId){
     return userService.getUserOrdersByUserId(userId);
   }
 

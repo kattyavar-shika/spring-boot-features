@@ -31,7 +31,13 @@ public class UserServiceImpl implements UserService {
 
     if (userInfo != null) {
       // If we get the data from orders.
+      /**
+       * Here you can decide.
+       * If you want to check CircuitBreaker then make call to getOrdersByUserId
+       * if you want to check Retry then make call to getOrdersByUserIdWithReTry
+       */
       OrderResponse orderResponseInt = orderIntegration.getOrdersByUserId(userId);
+      //OrderResponse orderResponseInt = orderIntegration.getOrdersByUserIdWithReTry(userId);
       return new UserOrderResponse(userInfo, orderResponseInt.orders());
     }
     return new UserOrderResponse(userInfo, null);
