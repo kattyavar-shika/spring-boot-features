@@ -1,0 +1,9 @@
+spring:
+  cloud:
+    config:
+      enabled: false
+
+service:
+  order:
+    base:
+      url: http://localhost:777/api/v1

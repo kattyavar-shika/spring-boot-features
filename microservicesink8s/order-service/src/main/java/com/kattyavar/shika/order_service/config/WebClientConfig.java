@@ -1,5 +1,6 @@
 package com.kattyavar.shika.order_service.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -7,10 +8,13 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Configuration
 public class WebClientConfig {
 
+  @Value("${service.order.base.url}") // Injecting the value from properties
+  String url;
+
   @Bean
-  public WebClient userServiceWebClient(){
+  public WebClient userServiceWebClient() {
     return WebClient.builder()
-      .baseUrl("http://localhost:9999/api/v1")
+      .baseUrl(url)
       .build();
   }
 }

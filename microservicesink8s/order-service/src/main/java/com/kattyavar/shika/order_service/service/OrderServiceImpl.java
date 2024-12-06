@@ -54,7 +54,7 @@ public class OrderServiceImpl implements OrderService {
 
     UserAccountInfo userAccountInfo = new UserAccountInfo();
     if (userAccountInfo != null) {
-      userAccountInfo.setName(userAccountInfo.getName());
+      userAccountInfo.setName(userAccountInfoInt.getName());
     }
     return userAccountInfo;
   }
