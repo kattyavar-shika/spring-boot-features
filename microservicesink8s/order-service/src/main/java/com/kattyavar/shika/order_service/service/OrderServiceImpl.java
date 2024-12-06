@@ -18,11 +18,14 @@ import java.util.stream.Collectors;
 @Service
 public class OrderServiceImpl implements OrderService {
 
-  @Autowired
   private OrderRepo orderRepo;
 
-  @Autowired
   UserServiceIntegration userServiceIntegration;
+
+  public OrderServiceImpl(OrderRepo orderRepo, UserServiceIntegration userServiceIntegration) {
+    this.orderRepo = orderRepo;
+    this.userServiceIntegration = userServiceIntegration;
+  }
 
   @Override
   public OrderResponse createOrder(OrderRequest orderRequest) {
