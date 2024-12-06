@@ -14,6 +14,7 @@ public class UserServiceIntegrationImpl implements UserServiceIntegration {
     this.userServiceWebClient = userServiceWebClient;
   }
 
+
   @Override
   public UserAccountInfoInt getUserAccount(String userId) {
 

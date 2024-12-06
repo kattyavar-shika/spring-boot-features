@@ -4,6 +4,7 @@ import com.kattyavar.shika.order_service.controller.OrderResponse;
 import com.kattyavar.shika.order_service.repo.OrderRepo;
 import com.kattyavar.shika.order_service.service.OrderService;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,6 +31,8 @@ public class OrderServiceWithMockDBTest {
     Mockito.when(orderRepo.findByUserId("1")).thenReturn(null);
 
     OrderResponse orderResponse = orderService.getOrderByUserId("1");
+    System.out.println("Please check the response...");
+    System.out.println(orderResponse);
     assertEquals("1", orderResponse.userId());
     assertNotNull(orderResponse.orders());
 

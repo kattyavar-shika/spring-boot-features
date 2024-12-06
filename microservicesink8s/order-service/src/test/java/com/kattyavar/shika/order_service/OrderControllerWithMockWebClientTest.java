@@ -35,6 +35,7 @@ public class OrderControllerWithMockWebClientTest {
 
   private MockWebServer mockWebServer;
   private OrderService orderService;
+
   private UserServiceIntegrationImpl userServiceIntegration;
 
 
@@ -53,6 +54,7 @@ public class OrderControllerWithMockWebClientTest {
 
   @AfterEach
   public void tearDown() throws IOException {
+    mockWebServer.shutdown();
     System.out.println("In shutdown.");
 
   }
@@ -63,6 +65,7 @@ public class OrderControllerWithMockWebClientTest {
     mockWebServer.enqueue(new MockResponse()
       .setBody(objectMapper.writeValueAsString(userAccountInfoInt))
       .addHeader("Content-Type", "application/json"));
+
     UserAccountInfo userAccount = orderService.getUserAccount("1");
     //Now build the mock response.
     assertEquals("This is comming from mock", userAccount.getName());
