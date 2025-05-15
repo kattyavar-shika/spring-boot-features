@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/test_db
+    username: admin
+    password: admin
+    hikari:
+      maximum-pool-size: 20                   # Maximum number of connections in the pool
+      minimum-idle: 2                         # Minimum number of idle connections
+      idle-timeout: 600000                    # Idle time before a connection is removed (in milliseconds)
+      connection-timeout: 30000               # Maximum time to wait for a connection (in milliseconds)
+      max-lifetime: 1800000                   # Maximum lifetime of a connection (in milliseconds)
+      leak-detection-threshold: 2000          # Detect connection leaks (in milliseconds)
+
+  jpa:
+    hibernate:
+      ddl-auto: update  # Change to 'update' or 'create' if needed
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+server:
+  port: 8081

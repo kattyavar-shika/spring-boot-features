@@ -26,7 +26,6 @@ public class HelloWorldNewWay {
   //http://localhost:8080/api/v1/users/prasad?status=shipped
   @GetMapping("/api/v1/users/{name}")
   Optional<User> findByUserName(@PathVariable String name, @RequestParam(required = false) String status) {
-
     System.out.println("We have got status as --> " + status);
     return users
       .stream()
