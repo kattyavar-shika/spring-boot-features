@@ -17,6 +17,7 @@ public class CustomerController {
 
   @GetMapping("/customers")
   List<Customer> getAllCustomers() {
+    deleteCustomer(99L);
     return customerRepository.findAll();
   }
 
@@ -29,6 +30,7 @@ public class CustomerController {
 
   @DeleteMapping("/customers/{id}")
   void deleteCustomer(@PathVariable Long id) {
+    System.out.println("Delete is called....");
     customerRepository.deleteById(id);
   }
 
