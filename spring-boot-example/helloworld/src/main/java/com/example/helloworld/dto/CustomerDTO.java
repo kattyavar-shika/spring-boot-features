@@ -1,4 +1,18 @@
 package com.example.helloworld.dto;
 
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CustomerDTO {
+  @NotNull
+  private String name;
+  @NotNull
+  private String lastName;
+  @NotNull
+  private String email;
 }
