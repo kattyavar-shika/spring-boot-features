@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice
+//@RestControllerAdvice
 @Slf4j
 public class GloblalExceptionHandler {
 
@@ -17,10 +17,5 @@ public class GloblalExceptionHandler {
     return ResponseEntity.status(HttpStatus.OK).body("An error occurs " + ex.getMessage());
   }
 
-  @ExceptionHandler(NullPointerException.class)
-  public ResponseEntity<String> handleNullPointerException(NullPointerException ex) {
 
-    log.info("our handleRuntimeException is called... ");
-    return ResponseEntity.status(HttpStatus.OK).body("An error occurs " + ex.getMessage());
-  }
 }

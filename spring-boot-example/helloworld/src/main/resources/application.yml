@@ -1,4 +1,8 @@
 spring:
+  security:
+    user:
+      name: test
+      password: test123
   datasource:
     url: jdbc:postgresql://localhost:5432/test_db
     username: admin
@@ -20,3 +24,10 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 server:
   port: 8081
+
+
+logging:
+  level:
+    org:
+      springframework:
+        security: TRACE

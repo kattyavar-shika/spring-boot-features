@@ -7,10 +7,10 @@ import com.example.helloworld.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.core.convert.converter.Converter;
-
 
 import java.util.List;
 
@@ -31,9 +31,11 @@ public class CustomerController {
     this.customerService = customerService;
   }
 
+
+  //Secure... the what is the way out...
+
   @GetMapping("/customers")
   List<Customer> getAllCustomers() {
-    //deleteCustomer(99L);
     return customerRepository.findAll();
   }
 
@@ -55,12 +57,9 @@ public class CustomerController {
     //You take control and validate all business rules. before processing request object...
 
 
-
-
     log.info("We have request object as {}", customerDTO);
     return customerService.createCustomer(customerDTO);
   }
-
 
 
   //Def
@@ -73,6 +72,11 @@ public class CustomerController {
       customer.setLastName(source.getLastName());
       return customer;
     }
+  }
+
+  @GetMapping("/version")
+  String getCurrentVersion() {
+    return "current version = 1.0.1";
   }
 
 }
